@@ -39,7 +39,9 @@ public class ApiRequest extends Request<String> {
 
     @Override
     protected void deliverResponse(String response) {
-        mListener.onResponse(response);
+        if (mListener != null) {
+            mListener.onResponse(response);
+        }
     }
 
     public static class Builder {
@@ -49,6 +51,8 @@ public class ApiRequest extends Request<String> {
         private String mBaseUrl;
         private Object mTag;
         private Map<String, String> mParams = new HashMap<String, String>();
+        private Response.Listener<String> mListener;
+        private Response.ErrorListener mErrorListener;
 
         public Builder(Context context, String baseUrl) {
             mContext = context;
@@ -75,6 +79,16 @@ public class ApiRequest extends Request<String> {
             return this;
         }
 
+        public Builder setListener(Response.Listener<String> listener) {
+            mListener = listener;
+            return this;
+        }
+
+        public Builder setErrorListener(Response.ErrorListener listener) {
+            mErrorListener = listener;
+            return this;
+        }
+
         public ApiRequest build() {
             String url;
             if (mMethod == Method.GET) {
@@ -82,17 +96,7 @@ public class ApiRequest extends Request<String> {
             } else {
                 url = mBaseUrl;
             }
-            ApiRequest request = new ApiRequest(mMethod, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            });
+            ApiRequest request = new ApiRequest(mMethod, url, mListener, mErrorListener);
             request.setTag(mTag);
             return request;
         }

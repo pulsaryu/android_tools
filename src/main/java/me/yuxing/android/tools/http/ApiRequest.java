@@ -101,6 +101,12 @@ public class ApiRequest extends Request<String> {
             return request;
         }
 
+        public ApiRequest call() {
+            ApiRequest request = build();
+            RequestQueue.add(mContext, request);
+            return request;
+        }
+
         private static String queryBuild(Map<String, String> params) {
             StringBuilder sb = new StringBuilder();
             boolean first = true;

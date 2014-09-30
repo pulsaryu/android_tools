@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.Settings;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -111,5 +112,14 @@ public class Util {
         }
 
         return false;
+    }
+
+    public synchronized static String deviceId(Context context) {
+        String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (deviceId == null) {
+            deviceId = Installation.id(context);
+        }
+
+        return deviceId;
     }
 }

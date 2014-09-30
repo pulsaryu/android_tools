@@ -1,6 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
     compileSdkVersion 19
     buildToolsVersion '20.0.0'
 
@@ -13,4 +19,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'org.apache.httpcomponents:httpmime:4.3.5'
+    compile 'org.apache.httpcomponents:httpcore:4.3.2'
 }

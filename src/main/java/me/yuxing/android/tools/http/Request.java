@@ -1,8 +1,10 @@
 package me.yuxing.android.tools.http;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -19,6 +21,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
+import me.yuxing.android.tools.R;
+import me.yuxing.android.tools.Util;
 
 /**
  * Created by yuxing on 2014-09-28.
@@ -145,6 +150,7 @@ public class Request extends com.android.volley.Request<String> {
             Request request = new Request(method, mUrl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    Log.d("Request", response + "");
                     if (mCallback != null) {
                         mCallback.onResponse(response);
                     }
@@ -152,6 +158,7 @@ public class Request extends com.android.volley.Request<String> {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
+                    Log.d("Request", volleyError.getMessage() + "");
                     if (mCallback != null) {
                         mCallback.onFailure(volleyError);
                     }
@@ -166,7 +173,11 @@ public class Request extends com.android.volley.Request<String> {
 
         public Request call() {
             Request request = build();
-            RequestQueue.getInstance(mContext).add(mContext, request);
+            if (Util.isNetworkConnected(mContext)) {
+                RequestQueue.getInstance(mContext).add(mContext, request);
+            } else if (mCallback != null) {
+                mCallback.onFailure(new NetworkErrorException(mContext.getString(R.string.network_error)));
+            }
             return request;
         }
     }

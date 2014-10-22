@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
+import android.view.View;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -121,5 +122,11 @@ public class Util {
         }
 
         return deviceId;
+    }
+
+    public static void showView(int visible, View... views) {
+        for (View view : views) {
+            view.setVisibility(visible);
+        }
     }
 }

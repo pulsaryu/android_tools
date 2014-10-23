@@ -3,4 +3,6 @@
     <string name="network_error">Network error, please check network.</string>
     <string name="error_cannot_empty">This field cannot be empty.</string>
     <string name="error_invalid_email">Invalid email.</string>
+    <string name="take_photo">Take photo</string>
+    <string name="select_from_album">Select from album</string>
 </resources>

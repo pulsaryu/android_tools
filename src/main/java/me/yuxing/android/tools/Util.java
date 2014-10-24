@@ -129,4 +129,19 @@ public class Util {
             view.setVisibility(visible);
         }
     }
+
+    public static String implode(List<?> list, String split) {
+        StringBuilder sb = new StringBuilder();
+        boolean first = true;
+        for (Object item : list) {
+            if (first) {
+                first = false;
+            } else {
+                sb.append(split);
+            }
+            sb.append(item);
+        }
+
+        return sb.toString();
+    }
 }
